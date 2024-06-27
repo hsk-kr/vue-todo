@@ -1,4 +1,8 @@
 html {
   --primary: #0984e3;
   --secondary: #74b9ff;
+  --hover-opacity: 0.8;
+  --warning: #f9ca24;
+  --danger: #eb4d4b;
+  --text: #1e272e;
 }

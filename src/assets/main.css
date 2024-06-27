@@ -1,4 +1,5 @@
 @import 'theme.css';
+@import 'primeicons/primeicons.css';
 
 body {
   margin: 0;
@@ -24,5 +25,10 @@ h6 {
 }
 
 button {
-  border: 0;
+  border: none;
+}
+
+input {
+  border: none;
+  outline: none;
 }

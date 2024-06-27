@@ -39,13 +39,13 @@ nav > a {
 
   &:hover {
     transition: all 0.5s;
-    opacity: 0.8;
+    opacity: var(--hover-opacity);
   }
 }
 
 nav > a:hover {
   transition: all 0.5s;
-  opacity: 0.8;
+  opacity: var(--hover-opacity);
 }
 
 a.router-link-active {

@@ -1,0 +1,16 @@
+{
+  "todos": [
+    {
+      "id": "default-a",
+      "title": "Learn Programming Languages",
+      "desc": "To expand to expertise to be hirable",
+      "done": false
+    },
+    {
+      "id": "default-b",
+      "title": "Apply for jobs",
+      "desc": "Top priority",
+      "done": false
+    }
+  ]
+}
