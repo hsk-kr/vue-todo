@@ -3,26 +3,32 @@
 import type { Todo } from '@/typings/todo'
 
 const props = defineProps<Omit<Todo, 'id'>>()
+const emit = defineEmits<{
+  (e: 'done'): void
+  (e: 'edit'): void
+  (e: 'delete'): void
+}>()
 </script>
 <template>
   <div class="todo">
     <div class="hover-content">
-      <i class="edit-btn pi pi-pen-to-square"></i>
-      <i class="delete-btn pi pi-trash"></i>
+      <i class="edit-btn pi pi-pen-to-square" @click="emit('edit')"></i>
+      <i class="delete-btn pi pi-trash" @click="emit('delete')"></i>
     </div>
     <div>
       <h2>{{ props.title }}</h2>
       <p>{{ props.desc }}</p>
     </div>
-    <i :class="['done pi pi-check', { active: done }]"></i>
+    <i :class="['done pi pi-check', { active: done }]" @click="emit('done')"></i>
   </div>
 </template>
 
 <style scoped>
 .todo {
   position: relative;
-  height: 120px;
+  height: 200px;
   padding: 16px;
+  padding-top: 28px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   display: flex;
   flex-direction: column;
@@ -30,9 +36,24 @@ const props = defineProps<Omit<Todo, 'id'>>()
   gap: 8px;
 }
 
+.todo h2 {
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
 .todo p {
   font-size: 0.9em;
-  padding: 4px 2px;
+  margin: 4px 2px;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .hover-content {

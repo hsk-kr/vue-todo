@@ -1,25 +1,69 @@
 <script setup lang="ts">
+import { getTodo } from '@/lib/api/todo'
+import { onMounted, ref, watchEffect } from 'vue'
+
 const props = defineProps<{
+  todoId?: string
   open: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'close'): void
+  (e: 'submit', title: string, desc: string): void
 }>()
+
+const form = ref<{
+  title: string
+  desc: string
+}>({
+  title: '',
+  desc: ''
+})
+
+const loading = ref<boolean>(false)
+
+const handleSubmit = () => {
+  if (!form.value.title || !form.value.desc) {
+    alert('Fill out input values')
+    return
+  }
+
+  emit('submit', form.value.title, form.value.desc)
+  loading.value = true
+}
+
+watchEffect(async () => {
+  if (!props.open) return
+
+  form.value.title = ''
+  form.value.desc = ''
+  if (!props.todoId) {
+    loading.value = false
+    return
+  }
+
+  loading.value = true
+  const todo = await getTodo(props.todoId)
+  form.value.title = todo.title
+  form.value.desc = todo.desc
+  loading.value = false
+})
+
+onMounted(async () => {})
 </script>
 <template>
   <div role="dialog" v-if="props.open">
-    <form>
+    <form @submit.prevent="handleSubmit">
       <i class="pi pi-times close" role="button" @click="emit('close')"></i>
       <div>
         <label>title</label>
-        <input type="text" />
+        <input type="text" v-model="form.title" :disabled="loading" />
       </div>
       <div>
         <label>desc</label>
-        <input type="text" />
+        <input type="text" v-model="form.desc" :disabled="loading" />
       </div>
-      <button type="submit">ADD</button>
+      <button type="submit" :disabled="loading">ADD</button>
     </form>
   </div>
 </template>
@@ -87,9 +131,21 @@ form input[type='text'] {
 }
 
 form button[type='submit'] {
+  cursor: pointer;
   color: white;
   background-color: var(--primary);
   font-weight: bold;
   padding: 8px 16px;
+  transition: all 0.5s;
+}
+
+form button[type='submit']:hover:not(:disabled) {
+  opacity: var(--hover-opacity);
+}
+
+form button[type='submit']:disabled {
+  background-color: #ccc;
+  color: #aaa;
+  cursor: default;
 }
 </style>
