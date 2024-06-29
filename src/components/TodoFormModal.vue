@@ -63,7 +63,7 @@ onMounted(async () => {})
         <label>desc</label>
         <input type="text" v-model="form.desc" :disabled="loading" />
       </div>
-      <button type="submit" :disabled="loading">ADD</button>
+      <button type="submit" :disabled="loading">{{ props.todoId ? 'UPDATE' : 'ADD' }}</button>
     </form>
   </div>
 </template>
